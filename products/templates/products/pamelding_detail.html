@@ -1,0 +1,20 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Påmelding - KableX{% endblock %}
+
+{% block content %}
+<h2>Påmelding</h2>
+
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+    <p><strong>Medlem:</strong> {{ pamelding.medlem.navn }}</p>
+    <p><strong>Aktivitet:</strong> {{ pamelding.aktivitet.navn }}</p>
+    <p><strong>Aktivitetsdato:</strong> {{ pamelding.aktivitet.dato|date:"d.m.Y" }}</p>
+    <p><strong>Påmeldingsdato:</strong> {{ pamelding.dato_pameldt|date:"d.m.Y" }}</p>
+    <p><strong>Sted:</strong> {{ pamelding.aktivitet.sted }}</p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:pamelding_delete' pamelding.pk %}" class="btn btn-danger">Fjern påmelding</a>
+    <a href="{% url 'products:pamelding_list' %}" class="btn" style="background-color: #6c757d;">Tilbake</a>
+</div>
+{% endblock %}

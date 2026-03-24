@@ -1,0 +1,28 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Legg til påmelding - KableX{% endblock %}
+
+{% block content %}
+<h2>Legg til påmelding</h2>
+
+<form method="post" style="max-width: 500px; margin-top: 20px;">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="{{ form.medlem.id_for_label }}">Medlem</label>
+        {{ form.medlem }}
+        {% if form.medlem.errors %}<div style="color: red; font-size: 12px;">{{ form.medlem.errors }}</div>{% endif %}
+    </div>
+    
+    <div class="form-group">
+        <label for="{{ form.aktivitet.id_for_label }}">Aktivitet</label>
+        {{ form.aktivitet }}
+        {% if form.aktivitet.errors %}<div style="color: red; font-size: 12px;">{{ form.aktivitet.errors }}</div>{% endif %}
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn">Lagre påmelding</button>
+        <a href="{% url 'products:pamelding_list' %}" class="btn" style="background-color: #6c757d;">Avbryt</a>
+    </div>
+</form>
+{% endblock %}

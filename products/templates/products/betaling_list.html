@@ -1,0 +1,48 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Betalinger - KableX{% endblock %}
+
+{% block content %}
+<h2>Betalinger</h2>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:betaling_create' %}" class="btn">+ Registrer betaling</a>
+</div>
+
+{% if betalinger %}
+    <table>
+        <thead>
+            <tr>
+                <th>Medlem</th>
+                <th>Beløp</th>
+                <th>Dato</th>
+                <th>Status</th>
+                <th>Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for betaling in betalinger %}
+                <tr>
+                    <td>{{ betaling.medlem.navn }}</td>
+                    <td>{{ betaling.belop }} kr</td>
+                    <td>{{ betaling.betalingsdato|date:"d.m.Y" }}</td>
+                    <td>
+                        {% if betaling.status == 'betalt' %}
+                            <span style="color: green;">✓ Betalt</span>
+                        {% else %}
+                            <span style="color: red;">✗ Ikke betalt</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'products:betaling_detail' betaling.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:betaling_update' betaling.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Endre</a>
+                        <a href="{% url 'products:betaling_delete' betaling.pk %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px;">Slett</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align: center; color: #666; margin-top: 20px;">Ingen betalinger registrert.</p>
+{% endif %}
+{% endblock %}

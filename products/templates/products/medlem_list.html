@@ -1,0 +1,50 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Medlemmer - KableX{% endblock %}
+
+{% block content %}
+<h2>Medlemmer</h2>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:medlem_create' %}" class="btn">+ Legg til medlem</a>
+</div>
+
+{% if medlemmer %}
+    <table>
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>E-post</th>
+                <th>Telefon</th>
+                <th>Medlemsdato</th>
+                <th>Status</th>
+                <th>Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medlem in medlemmer %}
+                <tr>
+                    <td>{{ medlem.navn }}</td>
+                    <td>{{ medlem.epost }}</td>
+                    <td>{{ medlem.telefon }}</td>
+                    <td>{{ medlem.medlemsdato|date:"d.m.Y" }}</td>
+                    <td>
+                        {% if medlem.aktiv %}
+                            <span style="color: green;">✓ Aktiv</span>
+                        {% else %}
+                            <span style="color: red;">✗ Inaktiv</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'products:medlem_detail' medlem.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:medlem_update' medlem.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Endre</a>
+                        <a href="{% url 'products:medlem_delete' medlem.pk %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px;">Slett</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align: center; color: #666; margin-top: 20px;">Ingen medlemmer registrert ennå.</p>
+{% endif %}
+{% endblock %}

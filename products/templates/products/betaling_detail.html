@@ -1,0 +1,27 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Betaling - KableX{% endblock %}
+
+{% block content %}
+<h2>Betalingsdetaljer</h2>
+
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+    <p><strong>Medlem:</strong> {{ betaling.medlem.navn }}</p>
+    <p><strong>Beløp:</strong> {{ betaling.belop }} kr</p>
+    <p><strong>Betalingsdato:</strong> {{ betaling.betalingsdato|date:"d.m.Y" }}</p>
+    <p>
+        <strong>Status:</strong>
+        {% if betaling.status == 'betalt' %}
+            <span style="color: green;">✓ Betalt</span>
+        {% else %}
+            <span style="color: red;">✗ Ikke betalt</span>
+        {% endif %}
+    </p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:betaling_update' betaling.pk %}" class="btn">Endre betaling</a>
+    <a href="{% url 'products:betaling_delete' betaling.pk %}" class="btn btn-danger">Slett betaling</a>
+    <a href="{% url 'products:betaling_list' %}" class="btn" style="background-color: #6c757d;">Tilbake</a>
+</div>
+{% endblock %}

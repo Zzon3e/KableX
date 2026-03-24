@@ -1,0 +1,34 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Hjem - KableX{% endblock %}
+
+{% block content %}
+<h2>Velkommen til KableX</h2>
+<p>Medlemsadministrasjonssystem for organisasjonen.</p>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; text-align: center;">
+        <h3>Medlemmer</h3>
+        <p>Administrer medlemmer i systemet.</p>
+        <a href="{% url 'products:medlem_list' %}" class="btn">Se medlemmer</a>
+    </div>
+    
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; text-align: center;">
+        <h3>Aktiviteter</h3>
+        <p>Planlegg og administrer aktiviteter.</p>
+        <a href="{% url 'products:aktivitet_list' %}" class="btn">Se aktiviteter</a>
+    </div>
+    
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; text-align: center;">
+        <h3>Påmeldinger</h3>
+        <p>Håndter påmeldinger til aktiviteter.</p>
+        <a href="{% url 'products:pamelding_list' %}" class="btn">Se påmeldinger</a>
+    </div>
+    
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; text-align: center;">
+        <h3>Betalinger</h3>
+        <p>Administrer medlemsbetalinger.</p>
+        <a href="{% url 'products:betaling_list' %}" class="btn">Se betalinger</a>
+    </div>
+</div>
+{% endblock %}

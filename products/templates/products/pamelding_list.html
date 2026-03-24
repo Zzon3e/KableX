@@ -1,0 +1,39 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Påmeldinger - KableX{% endblock %}
+
+{% block content %}
+<h2>Påmeldinger</h2>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:pamelding_create' %}" class="btn">+ Legg til påmelding</a>
+</div>
+
+{% if pameldigninger %}
+    <table>
+        <thead>
+            <tr>
+                <th>Medlem</th>
+                <th>Aktivitet</th>
+                <th>Dato</th>
+                <th>Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pamelding in pameldigninger %}
+                <tr>
+                    <td>{{ pamelding.medlem.navn }}</td>
+                    <td>{{ pamelding.aktivitet.navn }}</td>
+                    <td>{{ pamelding.dato_pameldt|date:"d.m.Y" }}</td>
+                    <td>
+                        <a href="{% url 'products:pamelding_detail' pamelding.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:pamelding_delete' pamelding.pk %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px;">Fjern</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align: center; color: #666; margin-top: 20px;">Ingen påmeldinger registrert.</p>
+{% endif %}
+{% endblock %}

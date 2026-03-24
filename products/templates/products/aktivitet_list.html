@@ -1,0 +1,40 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Aktiviteter - KableX{% endblock %}
+
+{% block content %}
+<h2>Aktiviteter</h2>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:aktivitet_create' %}" class="btn">+ Legg til aktivitet</a>
+</div>
+
+{% if aktiviteter %}
+    <table>
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Dato</th>
+                <th>Sted</th>
+                <th>Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aktivitet in aktiviteter %}
+                <tr>
+                    <td>{{ aktivitet.navn }}</td>
+                    <td>{{ aktivitet.dato|date:"d.m.Y" }}</td>
+                    <td>{{ aktivitet.sted }}</td>
+                    <td>
+                        <a href="{% url 'products:aktivitet_detail' aktivitet.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:aktivitet_update' aktivitet.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Endre</a>
+                        <a href="{% url 'products:aktivitet_delete' aktivitet.pk %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px;">Slett</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align: center; color: #666; margin-top: 20px;">Ingen aktiviteter planlagt ennå.</p>
+{% endif %}
+{% endblock %}

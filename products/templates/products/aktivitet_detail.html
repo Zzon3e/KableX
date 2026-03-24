@@ -1,0 +1,20 @@
+{% extends 'products/base.html' %}
+
+{% block title %}{{ aktivitet.navn }} - KableX{% endblock %}
+
+{% block content %}
+<h2>{{ aktivitet.navn }}</h2>
+
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+    <p><strong>Dato:</strong> {{ aktivitet.dato|date:"d.m.Y" }}</p>
+    <p><strong>Sted:</strong> {{ aktivitet.sted }}</p>
+    <p><strong>Beskrivelse:</strong></p>
+    <p>{{ aktivitet.beskrivelse }}</p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'products:aktivitet_update' aktivitet.pk %}" class="btn">Endre aktivitet</a>
+    <a href="{% url 'products:aktivitet_delete' aktivitet.pk %}" class="btn btn-danger">Slett aktivitet</a>
+    <a href="{% url 'products:aktivitet_list' %}" class="btn" style="background-color: #6c757d;">Tilbake</a>
+</div>
+{% endblock %}

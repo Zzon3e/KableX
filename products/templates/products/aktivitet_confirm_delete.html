@@ -1,0 +1,18 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Slett aktivitet - KableX{% endblock %}
+
+{% block content %}
+<h2>Slett aktivitet</h2>
+
+<div style="background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 5px; margin-bottom: 20px; color: #721c24;">
+    <strong>⚠️ Advarsel!</strong> Du er i ferd med å slette aktiviteten: <strong>{{ aktivitet.navn }}</strong>
+    <br>Denne handlingen kan ikke reverseres!
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ja, slett aktiviteten</button>
+    <a href="{% url 'products:aktivitet_detail' aktivitet.pk %}" class="btn" style="background-color: #6c757d;">Avbryt</a>
+</form>
+{% endblock %}

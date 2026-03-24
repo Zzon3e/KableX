@@ -1,0 +1,39 @@
+{% extends 'products/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Endre medlem{% else %}Opprett medlem{% endif %} - KableX{% endblock %}
+
+{% block content %}
+<h2>{% if form.instance.pk %}Endre medlem: {{ form.instance.navn }}{% else %}Opprett nytt medlem{% endif %}</h2>
+
+<form method="post" style="max-width: 500px; margin-top: 20px;">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="{{ form.navn.id_for_label }}">Navn</label>
+        {{ form.navn }}
+        {% if form.navn.errors %}<div style="color: red; font-size: 12px;">{{ form.navn.errors }}</div>{% endif %}
+    </div>
+    
+    <div class="form-group">
+        <label for="{{ form.epost.id_for_label }}">E-post</label>
+        {{ form.epost }}
+        {% if form.epost.errors %}<div style="color: red; font-size: 12px;">{{ form.epost.errors }}</div>{% endif %}
+    </div>
+    
+    <div class="form-group">
+        <label for="{{ form.telefon.id_for_label }}">Telefon</label>
+        {{ form.telefon }}
+        {% if form.telefon.errors %}<div style="color: red; font-size: 12px;">{{ form.telefon.errors }}</div>{% endif %}
+    </div>
+    
+    <div class="form-group">
+        <label for="{{ form.aktiv.id_for_label }}">{{ form.aktiv.label }}</label>
+        {{ form.aktiv }}
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn">Lagre</button>
+        <a href="{% url 'products:medlem_list' %}" class="btn" style="background-color: #6c757d;">Avbryt</a>
+    </div>
+</form>
+{% endblock %}
