@@ -12,7 +12,40 @@
     <p>{{ aktivitet.beskrivelse }}</p>
 </div>
 
-<div style="margin-bottom: 20px;">
+<!-- RELATED REGISTRATIONS -->
+<h3>Påmeldinger ({{ aktivitet.pamelding_set.count }})</h3>
+{% if aktivitet.pamelding_set.all %}
+    <table style="width: 100%; margin-bottom: 20px;">
+        <thead>
+            <tr>
+                <th>Medlem</th>
+                <th>E-post</th>
+                <th>Telefon</th>
+                <th>Påmeldt dato</th>
+                <th>Handling</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pamelding in aktivitet.pamelding_set.all %}
+                <tr>
+                    <td><a href="{% url 'products:medlem_detail' pamelding.medlem.pk %}">{{ pamelding.medlem.navn }}</a></td>
+                    <td>{{ pamelding.medlem.epost }}</td>
+                    <td>{{ pamelding.medlem.telefon }}</td>
+                    <td>{{ pamelding.dato_pameldt|date:"d.m.Y" }}</td>
+                    <td>
+                        <a href="{% url 'products:pamelding_detail' pamelding.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:pamelding_delete' pamelding.pk %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px;">Fjern</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="color: #666; margin-bottom: 20px;">Ingen påmeldinger ennå.</p>
+{% endif %}
+
+<div style="margin-top: 30px;">
+    <a href="{% url 'products:pamelding_create' %}" class="btn">+ Ny påmelding</a>
     <a href="{% url 'products:aktivitet_update' aktivitet.pk %}" class="btn">Endre aktivitet</a>
     <a href="{% url 'products:aktivitet_delete' aktivitet.pk %}" class="btn btn-danger">Slett aktivitet</a>
     <a href="{% url 'products:aktivitet_list' %}" class="btn" style="background-color: #6c757d;">Tilbake</a>

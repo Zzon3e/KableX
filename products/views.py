@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Medlem, Aktivitet, Pamelding, Betaling
 from .forms import MedlemForm, AktivitetForm, PameldingForm, BetalingForm
-
+from django.db.models import Q
 
 # ========== MEDLEM VIEWS ==========
 
@@ -14,6 +14,15 @@ class MedlemListView(ListView):
     template_name = 'products/medlem_list.html'
     context_object_name = 'medlemmer'
     paginate_by = 10
+    
+    def get_queryset(self):
+        queryset = Medlem.objects.all()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(navn__icontains=search) | Q(epost__icontains=search)
+            )
+        return queryset
 
 
 class MedlemCreateView(SuccessMessageMixin, CreateView):
@@ -56,6 +65,16 @@ class AktivitetListView(ListView):
     template_name = 'products/aktivitet_list.html'
     context_object_name = 'aktiviteter'
     paginate_by = 10
+    
+    def get_queryset(self):
+        queryset = Aktivitet.objects.all()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(navn__icontains=search) | Q(beskrivelse__icontains=search)
+            )
+        return queryset
+
 
 
 class AktivitetCreateView(SuccessMessageMixin, CreateView):
@@ -98,6 +117,15 @@ class PameldingListView(ListView):
     template_name = 'products/pamelding_list.html'
     context_object_name = 'pameldigninger'
     paginate_by = 15
+    
+    def get_queryset(self):
+        queryset = Pamelding.objects.all()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(medlem__navn__icontains=search) | Q(aktivitet__navn__icontains=search)
+            )
+        return queryset
 
 
 class PameldingCreateView(SuccessMessageMixin, CreateView):
@@ -131,6 +159,15 @@ class BetalingListView(ListView):
     template_name = 'products/betaling_list.html'
     context_object_name = 'betalinger'
     paginate_by = 15
+    
+    def get_queryset(self):
+        queryset = Betaling.objects.all()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(medlem__navn__icontains=search) | Q(status__icontains=search)
+            )
+        return queryset
 
 
 class BetalingCreateView(SuccessMessageMixin, CreateView):

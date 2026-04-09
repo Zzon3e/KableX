@@ -5,6 +5,15 @@
 {% block content %}
 <h2>Medlemmer</h2>
 
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="search" placeholder="Søk etter navn eller e-post..." 
+           value="{{ request.GET.search }}" style="padding: 8px; width: 300px;">
+    <button type="submit" class="btn">Søk</button>
+    {% if request.GET.search %}
+        <a href="?">Nullstill</a>
+    {% endif %}
+</form>
+
 <div style="margin-bottom: 20px;">
     <a href="{% url 'products:medlem_create' %}" class="btn">+ Legg til medlem</a>
 </div>
@@ -44,7 +53,32 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% if is_paginated %}
+<div style="margin-top: 30px; text-align: center;">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="btn">« Første</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="btn">‹ Forrige</a>
+    {% endif %}
+    
+    <span style="margin: 0 10px;">
+        <strong>Side {{ page_obj.number }} av {{ page_obj.paginator.num_pages }}</strong> 
+        ({{ page_obj.paginator.count }} medlemmer totalt)
+    </span>
+    
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="btn">Neste ›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="btn">Siste »</a>
+    {% endif %}
+</div>
+{% endif %}
 {% else %}
-    <p style="text-align: center; color: #666; margin-top: 20px;">Ingen medlemmer registrert ennå.</p>
+<p style="text-align: center; color: #666; margin-top: 20px;">
+    {% if request.GET.search %}
+        Ingen medlemmer funnet for "{{ request.GET.search }}".
+    {% else %}
+        Ingen medlemmer registrert ennå.
+    {% endif %}
+</p>
 {% endif %}
 {% endblock %}

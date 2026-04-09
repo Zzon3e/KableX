@@ -19,7 +19,73 @@
     </p>
 </div>
 
-<div style="margin-bottom: 20px;">
+<!-- RELATED REGISTRATIONS -->
+<h3>Påmeldinger ({{ medlem.pamelding_set.count }})</h3>
+{% if medlem.pamelding_set.all %}
+    <table style="width: 100%; margin-bottom: 20px;">
+        <thead>
+            <tr>
+                <th>Aktivitet</th>
+                <th>Dato</th>
+                <th>Påmeldt</th>
+                <th>Handling</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pamelding in medlem.pamelding_set.all %}
+                <tr>
+                    <td><a href="{% url 'products:aktivitet_detail' pamelding.aktivitet.pk %}">{{ pamelding.aktivitet.navn }}</a></td>
+                    <td>{{ pamelding.aktivitet.dato|date:"d.m.Y" }}</td>
+                    <td>{{ pamelding.dato_pameldt|date:"d.m.Y" }}</td>
+                    <td>
+                        <a href="{% url 'products:pamelding_detail' pamelding.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:pamelding_delete' pamelding.pk %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px;">Fjern</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="color: #666; margin-bottom: 20px;">Ingen påmeldinger ennå.</p>
+{% endif %}
+
+<!-- RELATED PAYMENTS -->
+<h3>Betalinger ({{ medlem.betaling_set.count }})</h3>
+{% if medlem.betaling_set.all %}
+    <table style="width: 100%; margin-bottom: 20px;">
+        <thead>
+            <tr>
+                <th>Beløp</th>
+                <th>Betalingsdato</th>
+                <th>Status</th>
+                <th>Handling</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for betaling in medlem.betaling_set.all %}
+                <tr>
+                    <td>{{ betaling.belop }} kr</td>
+                    <td>{{ betaling.betalingsdato|date:"d.m.Y" }}</td>
+                    <td>
+                        {% if betaling.status == 'betalt' %}
+                            <span style="color: green;">✓ Betalt</span>
+                        {% else %}
+                            <span style="color: red;">✗ Ikke betalt</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'products:betaling_detail' betaling.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Detaljer</a>
+                        <a href="{% url 'products:betaling_update' betaling.pk %}" class="btn" style="padding: 8px 12px; font-size: 12px;">Endre</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="color: #666; margin-bottom: 20px;">Ingen betalinger registrert.</p>
+{% endif %}
+
+<div style="margin-top: 30px;">
     <a href="{% url 'products:medlem_update' medlem.pk %}" class="btn">Endre medlem</a>
     <a href="{% url 'products:medlem_delete' medlem.pk %}" class="btn btn-danger">Slett medlem</a>
     <a href="{% url 'products:medlem_list' %}" class="btn" style="background-color: #6c757d;">Tilbake</a>
